@@ -1,57 +1,64 @@
 <template>
   <div class="card">
-    <div class="card-header">
-      <h4>
-      <Routerlink to="#" class="btn btn-danger"> Create Employee</Routerlink>
-      </h4>
-     </div>
-     <div class="card-body">
-      <table class="table table-bodered">
+
+    <div class="card-body">
+      <table class="table table-bordered">
         <thead>
           <th>SL</th>
-          <th> Name </th>
-          <th>Email </th>
-          <th> Phone</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
           <th>Address</th>
-          <th>test</th>
-
-        </thead>
-        <tbody>
-          <tr class="td" v-for = "(Employee,index) in this.employees" key = "index"></tr>
-
-          
-
-          
-
-        </tbody>
-        
-
+        </thead>                                              
+            <tbody class="bg-white divide-y divide-gray-200 divide-solid">
+                <tr v-for ="employee in data" :key="index"> 
+                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                        {{ employee.id }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                        {{ employee.name }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                        {{ employee.email }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                        {{ employee.phone }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                        {{ employee.address }}
+                    </td>
+                </tr> 
+            </tbody>
       </table>
-
-     </div>
+    </div>
   </div>
 </template>
 
-<!-- <script >
-  import axios from 'axios'
-  export default(){
-    name:'employees',
-    data(){
-      return {
-        employess:[]
-      },
-      mounted(){
-      this.getEmployees();
-      },
-      method:{
-        getEmployees(){
-          axios.get('http://127.0.0.1:8000/api/deparments').then(res =>{
-            this.employess = res.data.employess
-          console.log(res);
-          })
-        }
-      },
-    }
-  }
+<script>
+import axios from 'axios';
 
-</script> -->
+export default {
+  data() {
+    return {
+      data: [],
+    };
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+  fetchData() {
+  axios.get('http://127.0.0.1:8000/api/employees')
+    .then(response => {
+      this.data = response.data.data;
+      console.log(this.data); // Log the response
+
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      this.message = 'Error fetching data';
+    });
+},
+  },
+};
+</script>
